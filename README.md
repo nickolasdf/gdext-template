@@ -1,0 +1,1 @@
+GDextension cmake template
