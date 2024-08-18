@@ -1,1 +1,1 @@
-GDextension cmake template
+# GDextension cmake template
