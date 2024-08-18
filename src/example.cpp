@@ -9,13 +9,10 @@ void Example::_bind_methods() {
 }
 
 Example::Example() {
-	if (Engine::get_singleton()->is_editor_hint())
-        set_process_mode(Node::ProcessMode::PROCESS_MODE_DISABLED);
 }
 
 Example::~Example() {
 }
 
 void Example::_process(double delta) {
-	UtilityFunctions::print("Process");
 }
