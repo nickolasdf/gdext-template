@@ -1,1 +1,4 @@
 build
+
+cmake/env.cmake
+CMakeCache.txt
