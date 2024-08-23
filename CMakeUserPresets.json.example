@@ -1,0 +1,16 @@
+{
+    "version": 1,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 10,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "default",
+            "environment": {
+                "GD_PROJECT_PATH": ""
+            }
+        }
+    ]
+}
