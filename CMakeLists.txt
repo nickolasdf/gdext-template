@@ -20,15 +20,38 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
         "${CMAKE_CURRENT_SOURCE_DIR}/src/*.hpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 
+set(GDEXTENSION_LIBRARY_TYPE_NAME "")
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+  if (CMAKE_BUILD_TYPE STREQUAL "Debug")
+      if (CMAKE_SIZEOF_VOID_P EQUAL 4) # 32-bit
+          set(GDEXTENSION_LIBRARY_TYPE_NAME "windows.debug.x86_32")
+      elseif (CMAKE_SIZEOF_VOID_P EQUAL 8) # 64-bit
+          set(GDEXTENSION_LIBRARY_TYPE_NAME "windows.debug.x86_64")
+      endif()
+  elseif (CMAKE_BUILD_TYPE STREQUAL "Release")
+      if (CMAKE_SIZEOF_VOID_P EQUAL 4) # 32-bit
+          set(GDEXTENSION_LIBRARY_TYPE_NAME "windows.release.x86_32")
+      elseif (CMAKE_SIZEOF_VOID_P EQUAL 8) # 64-bit
+          set(GDEXTENSION_LIBRARY_TYPE_NAME "windows.release.x86_64")
+      endif()
+  endif()
+endif()
+
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
 target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/src")
 target_link_libraries(${PROJECT_NAME} PUBLIC godot::cpp)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/${PROJECT_NAME}/lib"
+    SUFFIX ".${GDEXTENSION_LIBRARY_TYPE_NAME}${CMAKE_SHARED_LIBRARY_SUFFIX}"
 )
 
-source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/src" PREFIX src FILES ${SOURCES})
+install(DIRECTORY "${CMAKE_BINARY_DIR}/${PROJECT_NAME}"
+    DESTINATION "${CMAKE_INSTALL_PREFIX}/"
+)
 
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/gdextension")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/gdextension-config")
+
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}/src" PREFIX src FILES ${SOURCES})

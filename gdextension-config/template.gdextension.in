@@ -1,0 +1,9 @@
+[configuration]
+
+entry_symbol = "@PROJECT_NAME@_init"
+compatibility_minimum = "4.3"
+reloadable = true
+
+[libraries]
+
+@GDEXTENSION_LIBRARY_TYPE_NAME@ = "lib/@GDEXTENSION_LIBRARY_FILE_NAME@"
